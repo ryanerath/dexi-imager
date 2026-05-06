@@ -5,11 +5,18 @@
 
 set -e
 
-# Configuration  
+# Configuration
 APP_NAME="@APP_NAME@"
 PROJECT_NAME="@CMAKE_PROJECT_NAME@"
 SOURCE_APP_PATH="@CMAKE_BINARY_DIR@/${PROJECT_NAME}.app"
-DMG_APP_PATH="@CMAKE_BINARY_DIR@/${APP_NAME}.app"
+# Stage the signed app under /tmp. CMAKE_BINARY_DIR may live inside an
+# iCloud / Dropbox / OneDrive synced folder (~/Documents is iCloud-synced
+# by default on modern macOS), and File Provider extensions auto-apply
+# com.apple.FinderInfo + com.apple.provenance to anything inside synced
+# folders. codesign refuses to sign bundles carrying those xattrs, and
+# they survive `xattr -cr`/`ditto --noextattr`. /tmp is never synced.
+STAGE_DIR="/tmp/dexi-imager-signed-stage"
+DMG_APP_PATH="${STAGE_DIR}/${APP_NAME}.app"
 FINAL_DMG_PATH="@CMAKE_BINARY_DIR@/${APP_NAME}-@IMAGER_VERSION_STR@.dmg"
 DMG_BACKGROUND_PATH="@CMAKE_BINARY_DIR@/dmg_background.png"
 SIGNING_IDENTITY="@IMAGER_SIGNING_IDENTITY@"
@@ -42,10 +49,14 @@ if [ ! -d "$SOURCE_APP_PATH" ]; then
     exit 1
 fi
 
-# Copy app bundle with display name for DMG
-echo "Copying app bundle with display name..."
-rm -rf "$DMG_APP_PATH"
-cp -R "$SOURCE_APP_PATH" "$DMG_APP_PATH"
+# Copy app bundle to staging dir under display name. `cp -RX` is BSD cp's
+# "no extended attributes" mode — strips com.apple.FinderInfo,
+# com.apple.provenance, and File Provider markers from the source. Without
+# this, codesign fails with "Disallowed xattr com.apple.FinderInfo found".
+echo "Copying app bundle to staging dir..."
+rm -rf "$STAGE_DIR"
+mkdir -p "$STAGE_DIR"
+cp -RX "$SOURCE_APP_PATH" "$DMG_APP_PATH"
 
 # Deploy Qt dependencies to the copied app bundle
 echo "Deploying Qt dependencies to app bundle..."
@@ -255,8 +266,8 @@ if [ "$SHOULD_NOTARIZE" = "ON" ] && [ -n "$KEYCHAIN_PROFILE" ] && [ "$KEYCHAIN_P
     fi
  fi
  
- # Clean up temporary app bundle copy
- echo "Cleaning up temporary app bundle..."
- rm -rf "$DMG_APP_PATH"
- 
- exit 0 
+ # Clean up staging dir
+ echo "Cleaning up staging dir..."
+ rm -rf "$STAGE_DIR"
+
+ exit 0
