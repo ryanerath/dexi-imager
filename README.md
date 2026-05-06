@@ -1,4 +1,50 @@
-# Raspberry Pi Imager
+# DEXI Imager
+
+A fork of [Raspberry Pi Imager](https://github.com/raspberrypi/rpi-imager) preconfigured to flash [DEXI-OS](https://github.com/DroneBlocks/dexi-os) images for the DroneBlocks DEXI flight controller hardware.
+
+The OS picker shows three options:
+
+| Model   | Pi variant                | dexi-os build target |
+| ------- | ------------------------- | -------------------- |
+| DEXI 3  | Compute Module 5          | `cm5`                |
+| DEXI 5  | Compute Module 4          | `ark_cm4`            |
+| DEXI 10 | Raspberry Pi 5            | `pi5`                |
+
+Images are hosted on Cloudflare R2 and listed in [`dexi/dexi_os_list.json`](./dexi/dexi_os_list.json), which the app loads at startup.
+
+## Updating the image list
+
+When a new DEXI-OS version ships, regenerate the manifest:
+
+```bash
+python3 dexi/build_manifest.py --version v0.21
+git add dexi/dexi_os_list.json
+git commit -m "Bump DEXI-OS to v0.21" && git push
+```
+
+The script reads Content-Length via HEAD requests for each target — no downloads required. SHA256 verification is intentionally skipped for now; we'll add it when the dexi-os build pipeline emits checksums.
+
+## Building from source
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the upstream build instructions (Qt 6, CMake, libcurl, etc.). All upstream build steps work unchanged for this fork.
+
+## Upstream
+
+This fork tracks `raspberrypi/rpi-imager`. To pull updates:
+
+```bash
+git remote add upstream https://github.com/raspberrypi/rpi-imager.git
+git fetch upstream
+git merge upstream/main
+```
+
+---
+
+Original Raspberry Pi Imager README follows.
+
+---
+
+## Raspberry Pi Imager (upstream)
 
 ![](./screenshot.png)
 
@@ -7,13 +53,13 @@ Raspberry Pi Imaging Utility
 - To install on Raspberry Pi OS, use `sudo apt update && sudo apt install rpi-imager`.
 - Download the latest version for Windows, macOS and Ubuntu from the [Raspberry Pi downloads page](https://www.raspberrypi.com/software/).
 
-## How to install and use Raspberry Pi Imager
+### How to install and use Raspberry Pi Imager
 
-Please see our [official documentation](https://www.raspberrypi.com/documentation/computers/getting-started.html#raspberry-pi-imager).
+Please see the [official documentation](https://www.raspberrypi.com/documentation/computers/getting-started.html#raspberry-pi-imager).
 
-## Development
+### Development
 
-To build Raspberry Pi Imager from source-code, see our separate instructions in [CONTRIBUTING.md](./CONTRIBUTING.md)
+To build Raspberry Pi Imager from source-code, see the separate instructions in [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Other notes
 

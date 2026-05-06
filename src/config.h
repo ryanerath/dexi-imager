@@ -7,8 +7,8 @@
  */
 
 
-/* Repository URL */
-#define OSLIST_URL                              "https://downloads.raspberrypi.com/os_list_imagingutility_v4.json"
+/* Repository URL — DEXI Imager fork: serves the DEXI 3 / 5 / 10 image list */
+#define OSLIST_URL                              "https://raw.githubusercontent.com/ryanerath/dexi-imager/main/dexi/dexi_os_list.json"
 
 /* Custom repository manifest file extension (without leading dot) */
 #define MANIFEST_EXTENSION                      "rpi-imager-manifest"
