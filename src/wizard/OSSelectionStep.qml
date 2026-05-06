@@ -22,7 +22,7 @@ WizardStepBase {
     readonly property OSListModel osmodel: imageWriter.getOSList()
     
     title: qsTr("Choose your DEXI model")
-    subtitle: qsTr("Select a DEXI flight controller image to flash")
+    subtitle: qsTr("Select a DEXI OS image to flash")
     showNextButton: true
     // Disable Next until a concrete OS has been selected
     nextButtonEnabled: oslist.currentIndex !== -1 && wizardContainer.selectedOsName.length > 0

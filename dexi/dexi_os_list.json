@@ -6,7 +6,7 @@
   "os_list": [
     {
       "name": "DEXI 3 (CM5)",
-      "description": "DEXI 3 \u2014 flight controller image for Raspberry Pi Compute Module 5",
+      "description": "DEXI 3 \u2014 OS image for Raspberry Pi Compute Module 5",
       "url": "https://pub-7efc16585b2a4b5ab550489e8d8d5b33.r2.dev/v0.20/dexi_raspberry_pi_os_cm5.img.zip",
       "icon": "",
       "release_date": "v0.20",
@@ -27,7 +27,7 @@
     },
     {
       "name": "DEXI 5 (CM4)",
-      "description": "DEXI 5 \u2014 flight controller image for Raspberry Pi Compute Module 4",
+      "description": "DEXI 5 \u2014 OS image for Raspberry Pi Compute Module 4",
       "url": "https://pub-7efc16585b2a4b5ab550489e8d8d5b33.r2.dev/v0.20/dexi_raspberry_pi_os_ark_cm4.img.zip",
       "icon": "",
       "release_date": "v0.20",
@@ -48,7 +48,7 @@
     },
     {
       "name": "DEXI 10 (Pi 5)",
-      "description": "DEXI 10 \u2014 flight controller image for Raspberry Pi 5",
+      "description": "DEXI 10 \u2014 OS image for Raspberry Pi 5",
       "url": "https://pub-7efc16585b2a4b5ab550489e8d8d5b33.r2.dev/v0.20/dexi_raspberry_pi_os_pi5.img.zip",
       "icon": "",
       "release_date": "v0.20",

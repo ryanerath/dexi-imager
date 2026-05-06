@@ -43,17 +43,17 @@ class DexiModel:
 MODELS: list[DexiModel] = [
     DexiModel(
         name="DEXI 3 (CM5)",
-        description="DEXI 3 — flight controller image for Raspberry Pi Compute Module 5",
+        description="DEXI 3 — OS image for Raspberry Pi Compute Module 5",
         target="cm5",
     ),
     DexiModel(
         name="DEXI 5 (CM4)",
-        description="DEXI 5 — flight controller image for Raspberry Pi Compute Module 4",
+        description="DEXI 5 — OS image for Raspberry Pi Compute Module 4",
         target="ark_cm4",
     ),
     DexiModel(
         name="DEXI 10 (Pi 5)",
-        description="DEXI 10 — flight controller image for Raspberry Pi 5",
+        description="DEXI 10 — OS image for Raspberry Pi 5",
         target="pi5",
     ),
 ]
