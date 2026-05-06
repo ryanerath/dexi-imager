@@ -11,6 +11,7 @@
       "icon": "",
       "release_date": "v0.20",
       "image_download_size": 7428868441,
+      "extract_size": 32212254720,
       "devices": [
         "pi5-64bit",
         "pi5-32bit",
@@ -31,6 +32,7 @@
       "icon": "",
       "release_date": "v0.20",
       "image_download_size": 7433831826,
+      "extract_size": 32212254720,
       "devices": [
         "pi5-64bit",
         "pi5-32bit",
@@ -51,6 +53,7 @@
       "icon": "",
       "release_date": "v0.20",
       "image_download_size": 7406167375,
+      "extract_size": 32212254720,
       "devices": [
         "pi5-64bit",
         "pi5-32bit",
