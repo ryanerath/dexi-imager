@@ -224,6 +224,7 @@ endif()
 set(_dmg_extra_vars "${CMAKE_CURRENT_BINARY_DIR}/dmg_extra_vars.cmake")
 file(WRITE "${_dmg_extra_vars}"
     "set(CMAKE_PROJECT_NAME \"${CMAKE_PROJECT_NAME}\")\n"
+    "set(APP_NAME \"${APP_NAME}\")\n"
     "set(CMAKE_BINARY_DIR \"${CMAKE_BINARY_DIR}\")\n"
     "set(CMAKE_CURRENT_SOURCE_DIR \"${CMAKE_CURRENT_SOURCE_DIR}\")\n"
     "set(CMAKE_COMMAND \"${CMAKE_COMMAND}\")\n"
