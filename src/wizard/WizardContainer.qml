@@ -660,20 +660,26 @@ Item {
                     policy: ScrollBar.AsNeeded 
                 }
             }
-            // Fixed bottom container for Advanced Options
+            // DEXI Imager: App Options button hidden — none of the underlying
+            // settings (sound alerts, auto-eject, telemetry, custom repo) are
+            // exposed in this build. The button itself is kept (visible:false)
+            // so the many `appOptionsButton: optionsButton` references in the
+            // step components still resolve.
             Item {
                 id: sidebarBottom
+                visible: false
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
                 anchors.leftMargin: Style.cardPadding
                 anchors.rightMargin: Style.cardPadding
                 anchors.bottomMargin: Style.spacingSmall
-                height: Style.buttonHeightStandard
+                height: 0
                 z: 2
 
                 ImButton {
                     id: optionsButton
+                    visible: false
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom

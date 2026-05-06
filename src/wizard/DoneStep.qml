@@ -72,40 +72,9 @@ WizardStepBase {
                 columnSpacing: Style.formColumnSpacing
                 rowSpacing: Style.spacingSmall
                 
-                Text {
-                    id: deviceLabel
-                    text: CommonStrings.device
-                    font.pointSize: Style.fontSizeDescription
-                    font.family: Style.fontFamily
-                    color: Style.formLabelColor
-                    Accessible.role: Accessible.StaticText
-                    Accessible.name: text + ": " + (wizardContainer.selectedDeviceName || CommonStrings.noDeviceSelected)
-                    Accessible.focusable: root.imageWriter ? root.imageWriter.isScreenReaderActive() : false
-                    focusPolicy: (root.imageWriter && root.imageWriter.isScreenReaderActive()) ? Qt.TabFocus : Qt.NoFocus
-                    activeFocusOnTab: root.imageWriter ? root.imageWriter.isScreenReaderActive() : false
-                }
-                Text {
-                    id: deviceValue
-                    text: wizardContainer.selectedDeviceName || CommonStrings.noDeviceSelected
-                    font.pointSize: Style.fontSizeDescription
-                    font.family: Style.fontFamilyBold
-                    font.bold: true
-                    color: Style.formLabelColor
-                    Layout.fillWidth: true
-                    elide: Text.ElideRight
-                    Accessible.ignored: true
+                // DEXI Imager: Device row removed — there is no device-selection
+                // step in this build, so "No device selected" was always shown.
 
-                    ToolTip.text: text
-                    ToolTip.visible: truncated && deviceValueMouseArea.containsMouse
-                    ToolTip.delay: 500
-                    MouseArea {
-                        id: deviceValueMouseArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        acceptedButtons: Qt.NoButton
-                    }
-                }
-                
                 Text {
                     id: osLabel
                     text: qsTr("Operating system:")
