@@ -173,15 +173,17 @@ Item {
     }
 
     Component.onCompleted: {
-        // Set initial step based on language selection preference and network connectivity at startup.
-        // Language selection step is shown first if requested, then device selection (if online) or OS selection (if offline).
+        // DEXI Imager: skip the device-selection step entirely. Only one product
+        // family is targeted (DEXI 3/5/10) and all OS entries advertise every
+        // hardware device tag, so device filtering would be a no-op anyway.
         if (showLanguageSelection) {
             currentStep = stepLanguageSelection
-        } else if (hasNetworkConnectivity) {
-            currentStep = stepDeviceSelection
         } else {
             currentStep = stepOSSelection
         }
+        // DEXI Imager: skip every customisation screen (hostname, locale, user,
+        // wifi, remote access, etc.) — the DEXI image ships pre-configured.
+        customizationSupported = false
         
         // Default to disabling warnings in embedded mode (per-run, non-persistent)
         if (imageWriter && imageWriter.isEmbeddedMode()) {
@@ -212,26 +214,19 @@ Item {
             // When OS list becomes available after starting offline, navigate to device
             // selection so the user can choose their target device (now that the list is available).
             // Guard: don't interrupt an active write operation.
+            // DEXI Imager: device-selection is skipped, so do nothing here.
+            // The OS list change will already have refreshed the OS step view.
             if (root.hasNetworkConnectivity && root.currentStep === root.stepOSSelection && !root.isWriting) {
-                console.log("OS list now available - navigating to device selection")
-                root.jumpToStep(root.stepDeviceSelection)
+                console.log("OS list now available")
             }
         }
     }
 
-    // Wizard step names for sidebar (grouped for cleaner display)
-    // When offline, skip Device selection
-    readonly property var stepNames: hasNetworkConnectivity ? [
-        qsTr("Device"),
-        qsTr("OS"), 
+    // DEXI Imager: simplified to Model → Storage → Write → Done.
+    // Device selection and per-OS customisation are not used.
+    readonly property var stepNames: [
+        qsTr("Model"),
         qsTr("Storage"),
-        qsTr("Customisation"),
-        qsTr("Writing"),
-        qsTr("Done")
-    ] : [
-        qsTr("OS"), 
-        qsTr("Storage"),
-        qsTr("Customisation"),
         qsTr("Writing"),
         qsTr("Done")
     ]
@@ -248,25 +243,14 @@ Item {
         }
     }
 
-    // Helper function to map wizard step to sidebar index
+    // DEXI Imager sidebar: Model (0) → Storage (1) → Writing (2) → Done (3).
+    // Device-selection and customisation steps are hidden but still exist as
+    // ints internally; this helper just folds them into the visible four.
     function getSidebarIndex(wizardStep) {
-        // When offline, device selection is skipped, so adjust indices
-        var offset = hasNetworkConnectivity ? 0 : -1
-        
-        if (wizardStep === stepDeviceSelection) {
-            // Device is at index 0 when online, not shown when offline
-            return hasNetworkConnectivity ? 0 : -1
-        } else if (wizardStep === stepOSSelection) {
-            return hasNetworkConnectivity ? 1 : 0
-        } else if (wizardStep === stepStorageSelection) {
-            return hasNetworkConnectivity ? 2 : 1
-        } else if (wizardStep >= firstCustomizationStep && wizardStep <= getLastCustomizationStep()) {
-            return hasNetworkConnectivity ? 3 : 2 // Customization group
-        } else if (wizardStep === stepWriting) {
-            return hasNetworkConnectivity ? 4 : 3 // Writing
-        } else if (wizardStep === stepDone) {
-            return hasNetworkConnectivity ? 5 : 4 // Done
-        }
+        if (wizardStep === stepOSSelection) return 0
+        if (wizardStep === stepStorageSelection) return 1
+        if (wizardStep === stepWriting) return 2
+        if (wizardStep === stepDone) return 3
         return 0
     }
 
@@ -902,7 +886,15 @@ Item {
     
     function previousStep() {
         if (root.currentStep > 0) {
+            // DEXI Imager: the device-selection step is hidden — never let
+            // "back" land on it. Going back from the OS step is a no-op.
+            if (root.currentStep === stepOSSelection) {
+                return
+            }
             var prevIndex = root.currentStep - 1
+            if (prevIndex === stepDeviceSelection) {
+                prevIndex = stepOSSelection
+            }
             // From Writing step:
             // - If customization not supported, jump straight back to Storage Selection
             // - If Raspberry Pi Connect step is not available, skip it when navigating back

@@ -104,14 +104,8 @@ def main() -> int:
             "latest_version": "1.0.0",
             "url": "https://github.com/ryanerath/dexi-imager",
         },
-        "os_list": [
-            {
-                "name": "DEXI Drone",
-                "description": "Pick a DEXI model below to flash its flight controller image",
-                "icon": "",
-                "subitems": entries,
-            }
-        ],
+        # Flat list — DEXI 3 / 5 / 10 appear directly on the picker, no nesting.
+        "os_list": entries,
     }
 
     args.out.write_text(json.dumps(manifest, indent=2) + "\n")

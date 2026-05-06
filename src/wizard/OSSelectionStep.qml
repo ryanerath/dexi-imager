@@ -21,8 +21,8 @@ WizardStepBase {
     readonly property HWListModel hwmodel: imageWriter.getHWList()
     readonly property OSListModel osmodel: imageWriter.getOSList()
     
-    title: qsTr("Choose operating system")
-    subtitle: qsTr("Select an operating system to install on your Raspberry Pi")
+    title: qsTr("Choose your DEXI model")
+    subtitle: qsTr("Select a DEXI flight controller image to flash")
     showNextButton: true
     // Disable Next until a concrete OS has been selected
     nextButtonEnabled: oslist.currentIndex !== -1 && wizardContainer.selectedOsName.length > 0

@@ -4,8 +4,9 @@ include(cmake/GeneratedResource.cmake)
 # Copyright (C) 2020-2025 Raspberry Pi Ltd
 
 cmake_minimum_required(VERSION 3.22)
-OPTION (ENABLE_CHECK_VERSION "Check for version updates" ON)
-OPTION (ENABLE_TELEMETRY "Enable sending telemetry" ON)
+# DEXI Imager fork: default these OFF so we don't ping raspberrypi.com.
+OPTION (ENABLE_CHECK_VERSION "Check for version updates" OFF)
+OPTION (ENABLE_TELEMETRY "Enable sending telemetry" OFF)
 OPTION (BUILD_EMBEDDED "Build for Embedded Imager" OFF)
 OPTION (BUILD_CLI_ONLY "Build CLI-only version without GUI components" OFF)
 
